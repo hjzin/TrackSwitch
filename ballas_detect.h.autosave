@@ -1,0 +1,44 @@
+#ifndef BALLAS_DETECT_H
+#define BALLAS_DETECT_H
+#include <opencv2/opencv.hpp>
+#include <iostream>
+
+using namespace cv;
+using namespace std;
+
+#define pi 3.1415926
+#define a1 100
+#define a2 200
+#define r1 4
+#define r2 23.5
+#define thresh_num 30
+#define thresh_sum 25
+
+//线段结构体
+struct Lines{
+    int seq; //序列号
+    double length; //长度
+    int theta; //与x轴的角度
+    double rho; //原点到直线的距离
+};
+
+vector<Vec4f> lines_adv;
+vector<Lines> candidate;
+vector<vector<Lines>> groups(21);
+vector<Lines> tmp;
+vector<Lines> edge_fin;
+vector<int> direction(181);
+
+Lines vec_init(Vec4f l, int i);
+void LSD(string pic_path);
+void InsertSortByRho(vector<Lines> &l);//对rho进行排序
+void InsertSortByLength(vector<Lines> &l);//对length进行排序
+bool select();//对直线进行筛选，选出符合铁轨边缘的直线
+void have_ballas();//对有砟和无砟进行检测
+double getlength(Vec4f l);//得到直线长度
+int gettheta(Vec4f l);  //得到直线与x轴的角度
+double getrho(Vec4f l);//得到原点到直线的距离
+int getseq(int i);//得到直线的序列号
+
+
+#endif // BALLAS_DETECT_H
